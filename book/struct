@@ -1,0 +1,57 @@
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
+struct dat{
+    char let;
+    int count;
+};
+bool mycomp(dat x,dat y){
+    return (x.count> y.count);
+}
+
+bool operator< (const dat &x, const dat &y){
+    return (x.count>y.count);
+}
+
+
+int main(){
+    ifstream f;
+    map <char, int> M;
+    
+    
+    
+    f.open("bigbook.txt",ios::in);
+    char c;
+    while (f.get(c)){
+        c=tolower(c);
+        if (M.find(c)==M.end()){
+            M[c] = 1;
+        }
+        else{
+            M[c] = M[c] + 1;
+        }
+    }
+    f.close();
+    
+    dat p;
+    vector <dat> pv;
+    for (auto it = M.begin(); it != M.end(); it++){
+        p.let = it->first;
+        p.count = it->second;
+        pv.push_back(p);
+    }
+    
+    sort(pv.begin() , pv.end(), mycomp);
+    
+    for (uint x = 0; x<10; x++){
+        cout<< pv[x].let << " "<< pv[x].count << endl;
+    }
+    
+    return 0;
+}
+
